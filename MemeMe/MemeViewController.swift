@@ -37,13 +37,16 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         labelBottom.defaultTextAttributes = memeTextAttributes
         labelBottom.textAlignment = .center
         labelBottom.delegate = self
+        
+        // clear any contents
+        cancelMeme(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // disable camera if not available
-        camButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        // enable buttons where the source is available
+        enableAddImgButtons(true)
         
         // subscribe to keyboard notification
         subscribeToKeyboardNotifications()
@@ -71,17 +74,19 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
+        
+        // disable add image buttons while text is added
+        enableAddImgButtons(false)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
+        // reenable buttons
+        enableAddImgButtons(true)
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // TODO
-        return true
-    }
     
     // MARK: Notifications
     
@@ -126,10 +131,20 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func cancelMeme(_ sender: Any) {
-    
+        // clear the image View and reset the labels
+        self.imagePickerView.image = nil
+        self.labelTop.text = "TOP"
+        self.labelBottom.text = "BOTTOM"
     }
     
     @IBAction func shareMeme(_ sender: Any) {
+    }
+    
+    // MARK: helper functions
+    
+    func enableAddImgButtons(_ flag: Bool) {
+        camButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera) && flag
+        albumButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary) && flag
     }
     
 }
