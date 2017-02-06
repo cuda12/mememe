@@ -89,6 +89,7 @@
                             <constraint firstItem="eub-EL-PuI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="ljf-9d-qZv"/>
                             <constraint firstItem="0W2-p4-AIC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="ltv-cS-fMy"/>
                             <constraint firstItem="JBa-DS-Tgr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="qI3-T0-kFE"/>
+                            <constraint firstItem="eub-EL-PuI" firstAttribute="centerX" secondItem="0W2-p4-AIC" secondAttribute="centerX" id="zC1-Ms-zB1"/>
                         </constraints>
                     </view>
                     <connections>

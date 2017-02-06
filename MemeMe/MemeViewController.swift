@@ -14,7 +14,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let memeTextAttributes:[String: Any] = [NSStrokeColorAttributeName: UIColor.black,
                                             NSForegroundColorAttributeName: UIColor.white ,
                                             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-                                            NSStrokeWidthAttributeName: 3.0]
+                                            NSStrokeWidthAttributeName: -3.0]
     
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var camButton: UIBarButtonItem!
@@ -31,9 +31,11 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         // add attributes to text field and link delegate to MemeVC
         labelTop.defaultTextAttributes = memeTextAttributes
+        labelTop.textAlignment = .center        // -- QUESTION Could I move this into the memeTextAttributes?
         labelTop.delegate = self
         
         labelBottom.defaultTextAttributes = memeTextAttributes
+        labelBottom.textAlignment = .center
         labelBottom.delegate = self
     }
 
@@ -49,6 +51,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // unsubscribe to keyboard notification
         unsubscribeFromKeyboardNotifications()
     }
     
@@ -71,6 +75,11 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // TODO
         return true
     }
     
