@@ -11,10 +11,13 @@ import UIKit
 class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     // MARK: Member variables
+    
     let memeTextAttributes:[String: Any] = [NSStrokeColorAttributeName: UIColor.black,
                                             NSForegroundColorAttributeName: UIColor.white ,
                                             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
                                             NSStrokeWidthAttributeName: -3.0]
+    
+    var activeTextField: UITextField?
     
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var camButton: UIBarButtonItem!
@@ -77,6 +80,18 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         // disable add image buttons while text is added
         enableAddImgButtons(false)
+        
+        // registrate as activeTextField (so only one field gets edited at the time and keyboard is proberly shown)
+        self.activeTextField = textField
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        // only allow one text field at the time to be edited
+        if self.activeTextField == nil {
+            return true
+        } else {
+            return false
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -84,6 +99,10 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         // reenable buttons
         enableAddImgButtons(true)
+        
+        // deregistrate textfield from activeTextfield variable
+        self.activeTextField = nil
+        
         return true
     }
     
@@ -99,20 +118,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
-    
-    func keyboardWillShow(_ notification: Notification) {
-        view.frame.origin.y = -getKeyboardHeight(notification)
-    }
-    
-    func keyboardWillHide() {
-        view.frame.origin.y = 0
-    }
-    
-    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
-    }
+
     
     // MARK: UI methods
     
@@ -145,6 +151,29 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func enableAddImgButtons(_ flag: Bool) {
         camButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera) && flag
         albumButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary) && flag
+    }
+    
+    func keyboardWillShow(_ notification: Notification) {
+        // only shift if activeTextField would be coverd by the keyboard
+        let keyboardHeight: CGFloat = getKeyboardHeight(notification)
+        let viewHeight: CGFloat = view.frame.height
+        
+        if let activeTextFieldPosY = self.activeTextField?.frame.origin.y {
+            let diffTextFieldKeyboard = (viewHeight - keyboardHeight) - activeTextFieldPosY
+            if diffTextFieldKeyboard < 0 {
+                view.frame.origin.y -= keyboardHeight
+            }
+        }
+    }
+    
+    func keyboardWillHide() {
+        view.frame.origin.y = 0
+    }
+    
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
     }
     
 }
