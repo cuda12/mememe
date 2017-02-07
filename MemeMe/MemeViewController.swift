@@ -140,9 +140,16 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func shareMeme(_ sender: Any) {
-        let image: UIImage = generateMemedImage()
-        let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        // TODO delegate
+        let imageMemed: UIImage = generateMemedImage()
+        let activityController = UIActivityViewController(activityItems: [imageMemed], applicationActivities: nil)
+        
+        // make use of the completionWithItemsHandler closure to store the memed image
+        activityController.completionWithItemsHandler = { activity, success, items, error in
+            if success {
+                self.saveMeme(memedImage: imageMemed)
+            }
+        }
+        
         present(activityController, animated: true, completion: nil)
     }
     
@@ -177,8 +184,12 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return memedImage
     }
     
-    func saveMeme() {
-        // TODO
+    func saveMeme(memedImage: UIImage) {
+        let memeMe = Meme(topText: labelTop.text!, bottomText: labelBottom.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+        
+        // store as a dictionary in users defaults
+        let defaults = UserDefaults.standard
+        //TODO defaults.setValuesForKeys(memeMe.asDictionary())
     }
     
     func enableAddImgButtons(_ flag: Bool) {
@@ -210,4 +221,5 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
 }
+
 

@@ -14,4 +14,15 @@ struct Meme {
     let bottomText: String
     let originalImage: UIImage
     let memedImage: UIImage
+    
+    func asDictionary() -> Dictionary<String, Any> {
+        var memeDict = [String:Any]()
+        
+        memeDict["topText"] = topText
+        memeDict["bottomText"] = bottomText
+        memeDict["originalImage"] = originalImage
+        memeDict["memedImage"] = memedImage
+        
+        return memeDict
+    }
 }
