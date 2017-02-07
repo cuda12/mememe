@@ -99,7 +99,9 @@
                         <outlet property="imagePickerView" destination="0W2-p4-AIC" id="pSh-Fi-gFp"/>
                         <outlet property="labelBottom" destination="voi-b0-iGX" id="RLi-23-KeA"/>
                         <outlet property="labelTop" destination="eub-EL-PuI" id="W4I-Jv-gEU"/>
+                        <outlet property="navigationbar" destination="JBa-DS-Tgr" id="4pi-md-7hc"/>
                         <outlet property="shareButton" destination="An5-Rh-d6k" id="e57-Vy-d3Q"/>
+                        <outlet property="toolbar" destination="mif-ow-R6i" id="vgL-vq-Rb9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

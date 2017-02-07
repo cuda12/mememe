@@ -26,6 +26,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var labelTop: UITextField!
     @IBOutlet weak var labelBottom: UITextField!
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var navigationbar: UINavigationBar!
     
     // MARK: View methods
     
@@ -67,6 +69,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imagePickerView.image = image
+            shareButton.isEnabled = true
         }
         dismiss(animated: true, completion: nil)
     }
@@ -82,12 +85,12 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         enableAddImgButtons(false)
         
         // registrate as activeTextField (so only one field gets edited at the time and keyboard is proberly shown)
-        self.activeTextField = textField
+        activeTextField = textField
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // only allow one text field at the time to be edited
-        if self.activeTextField == nil {
+        if activeTextField == nil {
             return true
         } else {
             return false
@@ -101,7 +104,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         enableAddImgButtons(true)
         
         // deregistrate textfield from activeTextfield variable
-        self.activeTextField = nil
+        activeTextField = nil
         
         return true
     }
@@ -136,17 +139,47 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         present(imagePicker, animated: true, completion: nil)
     }
     
+    @IBAction func shareMeme(_ sender: Any) {
+        let image: UIImage = generateMemedImage()
+        let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        // TODO delegate
+        present(activityController, animated: true, completion: nil)
+    }
+    
     @IBAction func cancelMeme(_ sender: Any) {
         // clear the image View and reset the labels
-        self.imagePickerView.image = nil
-        self.labelTop.text = "TOP"
-        self.labelBottom.text = "BOTTOM"
+        imagePickerView.image = nil
+        labelTop.text = "TOP"
+        labelBottom.text = "BOTTOM"
+        
+        shareButton.isEnabled = false
     }
-    
-    @IBAction func shareMeme(_ sender: Any) {
-    }
+
     
     // MARK: helper functions
+    
+    func generateMemedImage() -> UIImage {
+        // hide toolbar and navbar
+        navigationbar.isHidden = true
+        toolbar.isHidden = true
+        
+        // render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        
+        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        // show toolbar and navbar
+        navigationbar.isHidden = false
+        toolbar.isHidden = false
+    
+        return memedImage
+    }
+    
+    func saveMeme() {
+        // TODO
+    }
     
     func enableAddImgButtons(_ flag: Bool) {
         camButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera) && flag
