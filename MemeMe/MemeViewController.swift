@@ -171,8 +171,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         toolbar.isHidden = true
         
         // render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
         
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
@@ -202,7 +202,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let keyboardHeight: CGFloat = getKeyboardHeight(notification)
         let viewHeight: CGFloat = view.frame.height
         
-        if let activeTextFieldPosY = self.activeTextField?.frame.origin.y {
+        if let activeTextFieldPosY = activeTextField?.frame.origin.y {
             let diffTextFieldKeyboard = (viewHeight - keyboardHeight) - activeTextFieldPosY
             if diffTextFieldKeyboard < 0 {
                 view.frame.origin.y -= keyboardHeight
