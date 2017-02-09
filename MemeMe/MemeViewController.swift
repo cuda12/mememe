@@ -187,9 +187,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func saveMeme(memedImage: UIImage) {
         let memeMe = Meme(topText: labelTop.text!, bottomText: labelBottom.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
         
-        // store as a dictionary in users defaults
-        let defaults = UserDefaults.standard
-        //TODO defaults.setValuesForKeys(memeMe.asDictionary())
+        // prototype function for MeMeme 2.0
     }
     
     func enableAddImgButtons(_ flag: Bool) {
