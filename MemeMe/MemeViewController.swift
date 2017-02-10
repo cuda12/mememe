@@ -14,11 +14,6 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     let placeholdersTextFields: [String: String] = ["topLabel": "TOP", "bottomLabel": "BOTTOM"]
     
-    let memeTextAttributes: [String: Any] = [NSStrokeColorAttributeName: UIColor.black,
-                                             NSForegroundColorAttributeName: UIColor.white ,
-                                             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-                                             NSStrokeWidthAttributeName: -3.0]
-    
     var activeTextField: UITextField?
     
     @IBOutlet weak var imagePickerView: UIImageView!
@@ -126,13 +121,11 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     // MARK: UI methods
     
     @IBAction func pickAnImageFromAlbum(_ sender: Any) {
-        let source: UIImagePickerControllerSourceType = .photoLibrary
-        pickAnImage(fromSource: source)
+        pickAnImage(fromSource: .photoLibrary)
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        let source: UIImagePickerControllerSourceType = .camera
-        pickAnImage(fromSource: source)
+        pickAnImage(fromSource: .camera)
     }
     
     @IBAction func shareMeme(_ sender: Any) {
@@ -162,6 +155,11 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     // MARK: helper functions
     
     func setTextFieldAttributes(textField: UITextField) {
+        let memeTextAttributes: [String: Any] = [NSStrokeColorAttributeName: UIColor.black,
+                                                 NSForegroundColorAttributeName: UIColor.white ,
+                                                 NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+                                                 NSStrokeWidthAttributeName: -3.0]
+        
         textField.defaultTextAttributes = memeTextAttributes
         textField.textAlignment = .center
         textField.delegate = self
