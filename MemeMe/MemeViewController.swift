@@ -194,7 +194,9 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func saveMeme(memedImage: UIImage) {
         let memeMe = Meme(topText: labelTop.text!, bottomText: labelBottom.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
         
-        // prototype function for MeMeme 2.0
+        // add meme to application delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.memes.append(memeMe)
     }
     
     func enableAddImgButtons(_ flag: Bool) {
