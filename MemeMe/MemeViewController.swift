@@ -12,10 +12,12 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     // MARK: Member variables
     
-    let memeTextAttributes:[String: Any] = [NSStrokeColorAttributeName: UIColor.black,
-                                            NSForegroundColorAttributeName: UIColor.white ,
-                                            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-                                            NSStrokeWidthAttributeName: -3.0]
+    let placeholdersTextFields: [String: String] = ["topLabel": "TOP", "bottomLabel": "BOTTOM"]
+    
+    let memeTextAttributes: [String: Any] = [NSStrokeColorAttributeName: UIColor.black,
+                                             NSForegroundColorAttributeName: UIColor.white ,
+                                             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+                                             NSStrokeWidthAttributeName: -3.0]
     
     var activeTextField: UITextField?
     
@@ -35,13 +37,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         
         // add attributes to text field and link delegate to MemeVC
-        labelTop.defaultTextAttributes = memeTextAttributes
-        labelTop.textAlignment = .center        // -- QUESTION Could I move this into the memeTextAttributes?
-        labelTop.delegate = self
-        
-        labelBottom.defaultTextAttributes = memeTextAttributes
-        labelBottom.textAlignment = .center
-        labelBottom.delegate = self
+        setTextFieldAttributes(textField: labelTop)
+        setTextFieldAttributes(textField: labelBottom)
         
         // clear any contents
         cancelMeme(self)
@@ -79,7 +76,10 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
+        // only clear text if its equal to placeholder
+        if placeholdersTextFields.values.contains(textField.text!) {
+            textField.text = ""
+        }
         
         // disable add image buttons while text is added
         enableAddImgButtons(false)
@@ -125,18 +125,14 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     // MARK: UI methods
     
-    @IBAction func pickAnImage(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+    @IBAction func pickAnImageFromAlbum(_ sender: Any) {
+        let source: UIImagePickerControllerSourceType = .photoLibrary
+        pickAnImage(fromSource: source)
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .camera
-        present(imagePicker, animated: true, completion: nil)
+        let source: UIImagePickerControllerSourceType = .camera
+        pickAnImage(fromSource: source)
     }
     
     @IBAction func shareMeme(_ sender: Any) {
@@ -156,14 +152,27 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func cancelMeme(_ sender: Any) {
         // clear the image View and reset the labels
         imagePickerView.image = nil
-        labelTop.text = "TOP"
-        labelBottom.text = "BOTTOM"
+        labelTop.text = placeholdersTextFields["topLabel"]
+        labelBottom.text = placeholdersTextFields["bottomLabel"]
         
         shareButton.isEnabled = false
     }
 
     
     // MARK: helper functions
+    
+    func setTextFieldAttributes(textField: UITextField) {
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.textAlignment = .center
+        textField.delegate = self
+    }
+    
+    func pickAnImage(fromSource source: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = source
+        present(imagePicker, animated: true, completion: nil)
+    }
     
     func generateMemedImage() -> UIImage {
         // hide toolbar and navbar
@@ -203,7 +212,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if let activeTextFieldPosY = activeTextField?.frame.origin.y {
             let diffTextFieldKeyboard = (viewHeight - keyboardHeight) - activeTextFieldPosY
             if diffTextFieldKeyboard < 0 {
-                view.frame.origin.y -= keyboardHeight
+                view.frame.origin.y = -keyboardHeight
             }
         }
     }
