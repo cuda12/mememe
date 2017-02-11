@@ -35,8 +35,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         setTextFieldAttributes(textField: labelTop)
         setTextFieldAttributes(textField: labelBottom)
         
-        // clear any contents
-        cancelMeme(self)
+        // init UIViews with default values
+        initUIViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -149,12 +149,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         // if no meme is available dismiss view controller 
         
         if imagePickerView.image != nil {
-            imagePickerView.image = nil
-            labelTop.text = placeholdersTextFields["topLabel"]
-            labelBottom.text = placeholdersTextFields["bottomLabel"]
-        
-            shareButton.isEnabled = false
-            cancelButton.title = "Dismiss"
+            initUIViews()
         } else {
             dismissMemeViewController()
         }
@@ -173,6 +168,15 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         textField.defaultTextAttributes = memeTextAttributes
         textField.textAlignment = .center
         textField.delegate = self
+    }
+    
+    func initUIViews() {
+        imagePickerView.image = nil
+        labelTop.text = placeholdersTextFields["topLabel"]
+        labelBottom.text = placeholdersTextFields["bottomLabel"]
+        
+        shareButton.isEnabled = false
+        cancelButton.title = "Dismiss"
     }
     
     func pickAnImage(fromSource source: UIImagePickerControllerSourceType) {
