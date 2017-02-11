@@ -62,6 +62,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imagePickerView.image = image
             shareButton.isEnabled = true
+            cancelButton.title = "Cancel"
         }
         dismiss(animated: true, completion: nil)
     }
@@ -136,6 +137,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         activityController.completionWithItemsHandler = { activity, success, items, error in
             if success {
                 self.saveMeme(memedImage: imageMemed)
+                self.dismissMemeViewController()
             }
         }
         
@@ -144,11 +146,19 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func cancelMeme(_ sender: Any) {
         // clear the image View and reset the labels
-        imagePickerView.image = nil
-        labelTop.text = placeholdersTextFields["topLabel"]
-        labelBottom.text = placeholdersTextFields["bottomLabel"]
+        // if no meme is available dismiss view controller 
         
-        shareButton.isEnabled = false
+        if imagePickerView.image != nil {
+            imagePickerView.image = nil
+            labelTop.text = placeholdersTextFields["topLabel"]
+            labelBottom.text = placeholdersTextFields["bottomLabel"]
+        
+            shareButton.isEnabled = false
+            cancelButton.title = "Dismiss"
+        } else {
+            dismissMemeViewController()
+        }
+        
     }
 
     
@@ -227,6 +237,9 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return keyboardSize.cgRectValue.height
     }
     
+    func dismissMemeViewController() {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 
