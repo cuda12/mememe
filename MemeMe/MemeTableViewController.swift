@@ -50,7 +50,6 @@ class MemeTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // get current meme
-        print("im called")
         let meme = appDelegate.memes[(indexPath as NSIndexPath).row]
         
         // build detailed (present) View Controller for memed image

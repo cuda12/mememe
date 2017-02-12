@@ -21,16 +21,6 @@ class MemeCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // #WARNING #TODO for debugging only
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
 
         // navigation button on the right to add new meme
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMemeViewController))
@@ -116,9 +106,24 @@ class MemeCollectionViewController: UICollectionViewController {
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
     }
 
+    // QUESTION - I'd like to move this to the MemeViewController class (or the AppDelgate class?) since I implemented the exact same function
+    //            in the TableViewController class, but I was not able to call the prober selector from the bar item action. Could you give me 
+    //            some hints? Thanks 
     func showMemeViewController() {
         let memeViewController: MemeViewController
         memeViewController = storyboard?.instantiateViewController(withIdentifier: "MemeViewController") as! MemeViewController
         present(memeViewController, animated: true, completion: nil)
+    }
+    
+    
+    func addSomeDefaultImagesOnStartUp() {
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
     }
 }
