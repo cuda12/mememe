@@ -47,7 +47,6 @@ class MemeTableViewController: UIViewController, UITableViewDataSource, UITableV
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // get current meme
         let meme = appDelegate.memes[(indexPath as NSIndexPath).row]
@@ -59,6 +58,20 @@ class MemeTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         // add to navigation controller
         self.navigationController!.pushViewController(memePresentViewController, animated: true)
+    }
+    
+    // allow user to delete stored memes by sliding to the left
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            // delete from model and from table view
+            appDelegate.memes.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     

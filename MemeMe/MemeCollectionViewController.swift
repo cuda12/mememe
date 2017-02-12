@@ -22,6 +22,9 @@ class MemeCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // TODO delete debugging images
+        addSomeDefaultImagesOnStartUp()
+        
         // navigation button on the right to add new meme
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMemeViewController))
         
