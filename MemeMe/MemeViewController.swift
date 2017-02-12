@@ -162,7 +162,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func setTextFieldAttributes(textField: UITextField) {
         let memeTextAttributes: [String: Any] = [NSStrokeColorAttributeName: UIColor.black,
                                                  NSForegroundColorAttributeName: UIColor.white ,
-                                                 NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+                                                 NSFontAttributeName: UIFont(name: "Impact", size: 40)!,
                                                  NSStrokeWidthAttributeName: -3.0]
         
         textField.defaultTextAttributes = memeTextAttributes
