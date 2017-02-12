@@ -68,7 +68,10 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JBa-DS-Tgr">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="y5E-Kv-fxG"/>
+                                </constraints>
                                 <items>
                                     <navigationItem title="MemeMe" id="ZBD-bn-co8">
                                         <barButtonItem key="leftBarButtonItem" systemItem="action" id="An5-Rh-d6k">
@@ -89,12 +92,12 @@
                         <constraints>
                             <constraint firstItem="eub-EL-PuI" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="64" id="2MA-Vv-5hG"/>
                             <constraint firstItem="0W2-p4-AIC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="4gp-qI-q9c"/>
-                            <constraint firstItem="JBa-DS-Tgr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="5dp-Rn-yxe"/>
                             <constraint firstAttribute="trailing" secondItem="JBa-DS-Tgr" secondAttribute="trailing" id="9gQ-gP-Mfv"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0W2-p4-AIC" secondAttribute="bottom" id="Aek-dw-GFv"/>
                             <constraint firstItem="JBa-DS-Tgr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Cet-JE-aLQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0W2-p4-AIC" secondAttribute="trailing" constant="-16" id="LMz-iw-yXw"/>
                             <constraint firstItem="voi-b0-iGX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="NDu-qy-FVZ"/>
+                            <constraint firstItem="JBa-DS-Tgr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="QIU-yR-szh"/>
                             <constraint firstItem="eub-EL-PuI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bhk-p2-hYj"/>
                             <constraint firstItem="voi-b0-iGX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="f25-ei-gQq"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="voi-b0-iGX" secondAttribute="bottom" constant="64" id="kFy-E6-j7l"/>

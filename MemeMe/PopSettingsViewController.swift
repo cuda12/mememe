@@ -50,7 +50,6 @@ class PopSettingsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("im called \(row) \(component)")  // TODO delete
         appDelegate.settingsMemeVC["font"] = fontTypes[row]
     }
     
@@ -77,6 +76,7 @@ class PopSettingsViewController: UIViewController, UIPickerViewDelegate, UIPicke
  
     
     // MARK: helpers
+    
     func setUItoInitValues() {
         // set background color
         if let bgColor = initBgColor {
