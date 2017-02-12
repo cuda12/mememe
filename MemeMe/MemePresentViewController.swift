@@ -12,7 +12,7 @@ class MemePresentViewController: UIViewController {
 
     // MARK: Members
     
-    var memedImage: UIImage!
+    var meme: Meme!
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -23,7 +23,10 @@ class MemePresentViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // set image
-        imageView.image = memedImage
+        imageView.image = meme.memedImage
+        
+        // add edit button to navigation bar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showMemeViewController))
         
         // disable tabbar 
         self.tabBarController?.tabBar.isHidden = true
@@ -34,5 +37,15 @@ class MemePresentViewController: UIViewController {
         
         // show tabbar
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    
+    // MARK: Helper methods
+    
+    func showMemeViewController() {
+        let memeViewController: MemeViewController
+        memeViewController = storyboard?.instantiateViewController(withIdentifier: "MemeViewController") as! MemeViewController
+        memeViewController.initMeme = meme
+        present(memeViewController, animated: true, completion: nil)
     }
 }

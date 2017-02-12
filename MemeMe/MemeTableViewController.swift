@@ -54,7 +54,7 @@ class MemeTableViewController: UIViewController, UITableViewDataSource, UITableV
         // build detailed (present) View Controller for memed image
         let memePresentViewController: MemePresentViewController
         memePresentViewController = storyboard?.instantiateViewController(withIdentifier: "MemePresentViewController") as! MemePresentViewController
-        memePresentViewController.memedImage = meme.memedImage
+        memePresentViewController.meme = meme
         
         // add to navigation controller
         self.navigationController!.pushViewController(memePresentViewController, animated: true)

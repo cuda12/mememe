@@ -73,7 +73,7 @@ class MemeCollectionViewController: UICollectionViewController {
         // build present view controller
         let memePresentViewController: MemePresentViewController
         memePresentViewController = storyboard?.instantiateViewController(withIdentifier: "MemePresentViewController") as! MemePresentViewController
-        memePresentViewController.memedImage = meme.memedImage
+        memePresentViewController.meme = meme
         
         // add view controller to navigation stack
         navigationController?.pushViewController(memePresentViewController, animated: true)

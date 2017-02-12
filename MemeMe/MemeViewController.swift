@@ -15,6 +15,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let placeholdersTextFields: [String: String] = ["topLabel": "TOP", "bottomLabel": "BOTTOM"]
     
     var activeTextField: UITextField?
+    var initMeme: Meme?
     
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var camButton: UIBarButtonItem!
@@ -61,8 +62,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imagePickerView.image = image
-            shareButton.isEnabled = true
-            cancelButton.title = "Cancel"
+            setControlButtons(forImageAvailable: true)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -171,12 +171,23 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func initUIViews() {
-        imagePickerView.image = nil
-        labelTop.text = placeholdersTextFields["topLabel"]
-        labelBottom.text = placeholdersTextFields["bottomLabel"]
-        
-        shareButton.isEnabled = false
-        cancelButton.title = "Dismiss"
+        // in case no meme was given on start up init with default values, otherwise with given meme
+        if let initMeme = self.initMeme {
+            imagePickerView.image = initMeme.originalImage
+            labelTop.text = initMeme.topText
+            labelBottom.text = initMeme.bottomText
+            setControlButtons(forImageAvailable: true)
+        } else {
+            imagePickerView.image = nil
+            labelTop.text = placeholdersTextFields["topLabel"]
+            labelBottom.text = placeholdersTextFields["bottomLabel"]
+            setControlButtons(forImageAvailable: false)
+        }
+    }
+    
+    func setControlButtons(forImageAvailable flag: Bool) {
+        shareButton.isEnabled = flag
+        cancelButton.title = flag ? "Cancel" : "Dismiss"
     }
     
     func pickAnImage(fromSource source: UIImagePickerControllerSourceType) {
