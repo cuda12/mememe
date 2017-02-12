@@ -8,10 +8,11 @@
 
 import UIKit
 
-class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
 
     // MARK: Member variables
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let placeholdersTextFields: [String: String] = ["topLabel": "TOP", "bottomLabel": "BOTTOM"]
     
     var activeTextField: UITextField?
@@ -45,6 +46,9 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         // enable buttons where the source is available
         enableAddImgButtons(true)
+        
+        // load default settings for meme view controller
+        setMemeViewControllerSettings()
         
         // subscribe to keyboard notification
         subscribeToKeyboardNotifications()
@@ -105,6 +109,13 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return true
     }
     
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+    
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        setMemeViewControllerSettings()
+    }
     
     // MARK: Notifications
     
@@ -156,13 +167,28 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     }
 
+    @IBAction func openSettings(_ sender: Any) {
+        let popController = storyboard?.instantiateViewController(withIdentifier: "PopSettingsViewController") as! PopSettingsViewController
+        
+        // init popovercontroller
+        popController.modalPresentationStyle = UIModalPresentationStyle.popover
+        popController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
+        popController.popoverPresentationController?.delegate = self
+        popController.popoverPresentationController?.barButtonItem = sender as? UIBarButtonItem
+        
+        // set current bg color and font
+        popController.initBgColor = appDelegate.settingsMemeVC["bgColor"] as? UIColor
+        popController.initFontType = appDelegate.settingsMemeVC["font"] as? String
+        
+        present(popController, animated: true, completion: nil)
+    }
     
     // MARK: helper functions
     
     func setTextFieldAttributes(textField: UITextField) {
         let memeTextAttributes: [String: Any] = [NSStrokeColorAttributeName: UIColor.black,
                                                  NSForegroundColorAttributeName: UIColor.white ,
-                                                 NSFontAttributeName: UIFont(name: "Impact", size: 40)!,
+                                                 NSFontAttributeName: UIFont(name: (appDelegate.settingsMemeVC["font"] as! String), size: 40)!,
                                                  NSStrokeWidthAttributeName: -3.0]
         
         textField.defaultTextAttributes = memeTextAttributes
@@ -188,6 +214,15 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func setControlButtons(forImageAvailable flag: Bool) {
         shareButton.isEnabled = flag
         cancelButton.title = flag ? "Cancel" : "Dismiss"
+    }
+    
+    func setMemeViewControllerSettings() {
+        // set background color of view
+        view.backgroundColor = appDelegate.settingsMemeVC["bgColor"] as? UIColor
+        
+        // set font
+        setTextFieldAttributes(textField: labelTop)
+        setTextFieldAttributes(textField: labelBottom)
     }
     
     func pickAnImage(fromSource source: UIImagePickerControllerSourceType) {

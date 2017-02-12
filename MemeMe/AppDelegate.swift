@@ -13,9 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    // shared memes array stored in application delegate
+    // shared memes array stored in application delegate as well as the default bgColor and font for the memeViewController
     var memes = [Meme]()
-
+    var settingsMemeVC = ["bgColor": UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0), "font": "Impact"] as [String : Any]
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

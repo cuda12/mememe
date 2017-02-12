@@ -18,6 +18,7 @@
 		A18B99351E4FBBE4004021AD /* MemeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18B99341E4FBBE4004021AD /* MemeCollectionViewController.swift */; };
 		A18B99371E4FBBF4004021AD /* MemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18B99361E4FBBF4004021AD /* MemeCollectionViewCell.swift */; };
 		A18B993B1E50A041004021AD /* Impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A18B993A1E50A041004021AD /* Impact.ttf */; };
+		A18B99411E50C36E004021AD /* PopSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18B99401E50C36E004021AD /* PopSettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		A18B99341E4FBBE4004021AD /* MemeCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeCollectionViewController.swift; sourceTree = "<group>"; };
 		A18B99361E4FBBF4004021AD /* MemeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeCollectionViewCell.swift; sourceTree = "<group>"; };
 		A18B993A1E50A041004021AD /* Impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact.ttf; sourceTree = "<group>"; };
+		A18B99401E50C36E004021AD /* PopSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopSettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				A11A2B0E1E48BAA50003AC64 /* Main.storyboard */,
 				A11A2B131E48BAA50003AC64 /* LaunchScreen.storyboard */,
 				A11A2B161E48BAA50003AC64 /* Info.plist */,
+				A18B99401E50C36E004021AD /* PopSettingsViewController.swift */,
 			);
 			path = MemeMe;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A11A2B1D1E4A488F0003AC64 /* Meme.swift in Sources */,
+				A18B99411E50C36E004021AD /* PopSettingsViewController.swift in Sources */,
 				A11A2B0D1E48BAA50003AC64 /* MemeViewController.swift in Sources */,
 				A18B99331E4FB56F004021AD /* MemePresentViewController.swift in Sources */,
 				A11A2B0B1E48BAA50003AC64 /* AppDelegate.swift in Sources */,
