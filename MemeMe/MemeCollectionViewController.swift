@@ -15,19 +15,28 @@ class MemeCollectionViewController: UICollectionViewController {
     // MARK: Members
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     @IBOutlet var memeCollectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: View Controller methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // #WARNING #TODO for debugging only
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
+        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        // navigation button on the right to add new meme
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMemeViewController))
+        
+        // set layout of collection cells
+        setFlowLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -35,12 +44,22 @@ class MemeCollectionViewController: UICollectionViewController {
         
         // reload data
         memeCollectionView.reloadData()
+        
+        // subscribe to notification center
+        subscripeToDeviceRotation()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // unsubscribe from notification center
+        unsubscripeToDeviceRotation()
+    }
+
     
     // MARK: UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(appDelegate.memes.count)
         return appDelegate.memes.count
     }
 
@@ -55,33 +74,51 @@ class MemeCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let meme = appDelegate.memes[(indexPath as NSIndexPath).row]
+        
+        // build present view controller
+        let memePresentViewController: MemePresentViewController
+        memePresentViewController = storyboard?.instantiateViewController(withIdentifier: "MemePresentViewController") as! MemePresentViewController
+        memePresentViewController.memedImage = meme.memedImage
+        
+        // add view controller to navigation stack
+        navigationController?.pushViewController(memePresentViewController, animated: true)
     }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    
+    // MARK: Notification subscriptions
+    
+    func subscripeToDeviceRotation() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setFlowLayout), name: .UIDeviceOrientationDidChange, object: nil)
     }
-    */
+    
+    func unsubscripeToDeviceRotation() {
+        NotificationCenter.default.removeObserver(self, name: .UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    
+    // MARK: Helper
+    
+    func setFlowLayout() {
+        let space: CGFloat = 3.0
+        let dimension: CGFloat
+        
+        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            dimension = (view.frame.size.width - (2 * space)) / 3.0
+        } else {
+            dimension = (view.frame.size.width - (4 * space)) / 5.0
+        }
+        
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        
+        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+    }
 
+    func showMemeViewController() {
+        let memeViewController: MemeViewController
+        memeViewController = storyboard?.instantiateViewController(withIdentifier: "MemeViewController") as! MemeViewController
+        present(memeViewController, animated: true, completion: nil)
+    }
 }

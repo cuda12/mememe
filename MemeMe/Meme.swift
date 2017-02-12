@@ -25,4 +25,20 @@ struct Meme {
         
         return memeDict
     }
+    
+    // MARK: Initializer methods
+    
+    init(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage) {
+        self.topText = topText
+        self.bottomText = bottomText
+        self.originalImage = originalImage
+        self.memedImage = memedImage
+    }
+    
+    init(fromImageWithDefaultValues image: UIImage) {
+        topText = "TOP Label"
+        bottomText = "BOTTOM Labe"
+        originalImage = image
+        memedImage = image
+    }
 }

@@ -233,6 +233,7 @@
                     <navigationItem key="navigationItem" title="Sent Memes" id="Fv1-wb-bxS"/>
                     <connections>
                         <outlet property="collectionView" destination="ETs-59-Nk0" id="IKb-Cp-k8U"/>
+                        <outlet property="flowLayout" destination="IJo-E4-kKr" id="45l-ar-S1T"/>
                         <outlet property="memeCollectionView" destination="ETs-59-Nk0" id="MzD-HF-CXC"/>
                     </connections>
                 </collectionViewController>
