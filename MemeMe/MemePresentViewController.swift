@@ -19,14 +19,18 @@ class MemePresentViewController: UIViewController {
     
     // MARK: View controllers methods
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // add edit button to navigation bar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showMemeViewController))
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // set image
         imageView.image = meme.memedImage
-        
-        // add edit button to navigation bar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showMemeViewController))
         
         // disable tabbar 
         self.tabBarController?.tabBar.isHidden = true
