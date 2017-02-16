@@ -22,9 +22,6 @@ class MemeCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // TODO delete debugging images
-        addSomeDefaultImagesOnStartUp()
-        
         // navigation button on the right to add new meme
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMemeViewController))
         
@@ -116,17 +113,5 @@ class MemeCollectionViewController: UICollectionViewController {
         let memeViewController: MemeViewController
         memeViewController = storyboard?.instantiateViewController(withIdentifier: "MemeViewController") as! MemeViewController
         present(memeViewController, animated: true, completion: nil)
-    }
-    
-    
-    func addSomeDefaultImagesOnStartUp() {
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0013")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0018")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0003")!))
-        appDelegate.memes.append(Meme(fromImageWithDefaultValues: UIImage(named: "IMG_0021")!))
     }
 }
